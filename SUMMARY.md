@@ -3,7 +3,6 @@
 * [User Guide](README.md)
     * [Getting Started](README.md#getting-started)
     * [Taking Photos](README.md#taking-photos)
-    * [Troubleshooting](README.md#troubleshooting)
 
 * [MeasureKit](measurekit.md)
     * [Setup](measurekit.md#setup)
