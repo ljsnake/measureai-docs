@@ -86,6 +86,7 @@ Expose the crotch point, and lay the whole trousers flat as shown in the example
 ![Don't fold sleeves](images/measurekit/tips/tips_folded.jpg)
 
 **Don't wrinkle clothing**
+
 TIP: Try ironing or steaming the clothing to make it flat. 
 
 ![Don't wrinkle](images/measurekit/tips/tips_wrinkle.jpg)
