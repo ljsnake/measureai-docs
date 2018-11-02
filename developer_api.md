@@ -2,11 +2,11 @@
 
 ## Introduction
 
-MeasureAI provides an API interface for developers to call our measurement services. JSON is returned by all API responses, including [errors](#errors). 
+MeasureAI provides an API interface for developers to call our measurement services. JSON is returned by all API responses, including [errors](developer_api.md#errors).
 
 ### Getting Started
 
-You need to [register](https://measure.productai.com/trial) a MeasureAI account, and get the Access Key ID. The Access Key ID is available via the ProductAI Console: 
+You need to [register](https://measure.productai.com/trial) a MeasureAI account, and get the Access Key ID. The Access Key ID is available via the ProductAI Console:
 
 1. Login to [ProductAI Console](https://console.productai.com/login).
 2. Click your username on the top right corner, choose “My Account”.
@@ -14,69 +14,64 @@ You need to [register](https://measure.productai.com/trial) a MeasureAI account,
 
 ### Image Specifications
 
-Images sent to the API either as an image file handler object, in string form as `base64`, or as an image URL. 
+Images sent to the API either as an image file handler object, in string form as `base64`, or as an image URL.
 
-- Image size: 1024 X 1024 or higher. 
-- Supports `.jpg`, `.jpeg` or `.png` formats. 
-- Image file size should be less than `15 MB`. 
+* Image size: 1024 X 1024 or higher. 
+* Supports `.jpg`, `.jpeg` or `.png` formats. 
+* Image file size should be less than `15 MB`. 
 
 ## Authentication
 
 Authenticate your account by including your `access_key_id` in API requests. You can manage your API `access_key_id` in the [ProductAI Console](https://console.productai.com/login). Your API `access_key_id` carry many privileges, so be sure to keep them secure! Do not share your secret API `access_key_id` in publicly accessible areas such as GitHub, client-side code, and so forth.
 
-Authentication to the API is performed via HTTP Header. 
+Authentication to the API is performed via HTTP Header.
 
-````
+```text
 -H 'x-ca-version: 1.0'
--H 'x-ca-accesskeyid: ACCESS_KEY_ID' 
-````
-
+-H 'x-ca-accesskeyid: ACCESS_KEY_ID'
+```
 
 ## Measurements
 
 Make a request by sending an image, either as an image file handler object, in string form as `base64`, or as an image URL. The API can be invoked using POST method, in JSON format, to: `https://api.productai.com/measure/_0000203/predict`
 
-
 ### Request
 
-The request `body` should contain the image data for measurements. Only 1 input parameter is required; if multiple input parameters are provided, the API will use first available one. 
+The request `body` should contain the image data for measurements. Only 1 input parameter is required; if multiple input parameters are provided, the API will use first available one.
 
 | Param | Required | Type | Description |
-|-------|---------|------|-------------|
-| image_base64 | Yes | String | Image encoded in `base64` |
-| image_url | Yes | String | Image url |
-| image_file | File | Image file handler | Image file, e.g. `.jpg` |
-
+| :--- | :--- | :--- | :--- |
+| image\_base64 | Yes | String | Image encoded in `base64` |
+| image\_url | Yes | String | Image url |
+| image\_file | File | Image file handler | Image file, e.g. `.jpg` |
 
 Example:
 
-````
+```text
 curl -H "Content-Type:application/json" \
     -H 'x-ca-version: 1.0' \
     -H 'x-ca-accesskeyid: ACCESS_KEY_ID' \
     -X POST \
         --data '{"image_url":"http://image_url"}' \
         'https://api.productai.com/measure/_0000203/predict'
-````
+```
 
 ### Response
 
-All API responses are returned in JSON. 
+All API responses are returned in JSON.
 
-- `request_id` is a unique ID for the API request. 
-- `results` contains the measurement results. 
-
+* `request_id` is a unique ID for the API request. 
+* `results` contains the measurement results. 
 
 | Field | Type | Description |
-|-------|------|-------------|
-| `measurements` | Object | Measurements in `mm`, as JSON object. For details see [Label Reference](#label-reference). |
+| :--- | :--- | :--- |
+| `measurements` | Object | Measurements in `mm`, as JSON object. For details see [Label Reference](developer_api.md#label-reference). |
 | `get_image_seconds` | Float | Duration for fetching or uploading image |
-| `process_seconds` | Float | Duration for processing API request|
-
+| `process_seconds` | Float | Duration for processing API request |
 
 Example:
 
-````
+```text
 {
     "request_id": "f9e0953b-b7b2-40aa-b60f-2b577cca0324",
     "results": {
@@ -98,40 +93,35 @@ Example:
         "process_seconds": 1.234
     }
 }
-````
+```
 
 ## Batch Process
 
-Batch Process API create asynchronous tasks convenient for handling large number of images. You can pass a list of images, and check for results at a later time. The API can be invoked by using POST method, in JSON format, to: `https://api.productai.com/measure/_0000203/batch/process`. 
+Batch Process API create asynchronous tasks convenient for handling large number of images. You can pass a list of images, and check for results at a later time. The API can be invoked by using POST method, in JSON format, to: `https://api.productai.com/measure/_0000203/batch/process`.
 
-You can [check task status](#check-task-status), and if its completed successfully, download the results from the output url. 
-
+You can [check task status](developer_api.md#check-task-status), and if its completed successfully, download the results from the output url.
 
 ### Request
 
-The request `body` should contain a name for the batch processing request, and a list of images for processing. The images can be passed as a `JSON` array, a `.csv` file, or `.json` file. Only 1 input parameter is required; if multiple input parameters are provided, the API will use first available one. 
-
+The request `body` should contain a name for the batch processing request, and a list of images for processing. The images can be passed as a `JSON` array, a `.csv` file, or `.json` file. Only 1 input parameter is required; if multiple input parameters are provided, the API will use first available one.
 
 | Param | Required | Type | Description |
-|-------|---------|------|-------------|
+| :--- | :--- | :--- | :--- |
 | name | Yes | String | Task name |
-| items | Array | Array of [Item](#item-object) objects. |
-| item_json_file | File | `.json` file, with an [Item](#item-object) object for each line |
-| item_csv_file | File | `.csv` file with 2 columns, `image_url` and `item_id` |
-
+| items | Array | Array of [Item](developer_api.md#item-object) objects. |  |
+| item\_json\_file | File | `.json` file, with an [Item](developer_api.md#item-object) object for each line |  |
+| item\_csv\_file | File | `.csv` file with 2 columns, `image_url` and `item_id` |  |
 
 #### Item Object
 
 | Param | Required | Type | Description |
-|-------|---------|------|-------------|
+| :--- | :--- | :--- | :--- |
 | `item_url` | Yes | String | URL path to image |
 | `item_id` | No | String | A meta tag for identifying this item |
 
-
-
 Example:
 
-````
+```text
 payload = '{
     "name":"tshirts_task",
     "items":[
@@ -148,34 +138,32 @@ curl -H "Content-Type:application/json" \
     -X POST \
         --data $payload \
         'https://api.productai.com/measure/_0000203/batch/process'
-````
+```
 
 ### Response
 
 All API responses are returned in JSON
 
-- `request_id` is a unique ID for the API request. 
-- `results` contains the results of the task request. 
+* `request_id` is a unique ID for the API request. 
+* `results` contains the results of the task request. 
 
 Tasks
 
 | Field | Type | Description |
-|-------|------|-------------|
-| id | String | Task ID used to [check task status](#check-task-status). Note -- this is different from `request_id`. |
+| :--- | :--- | :--- |
+| id | String | Task ID used to [check task status](developer_api.md#check-task-status). Note -- this is different from `request_id`. |
 | name | String | Task name |
-| status | Integer | [Task Status Code](#check-task-status) |
-| output_url | String | URL to output `.json` file containing results. `output_url` will be null until task is finished. |
+| status | Integer | [Task Status Code](developer_api.md#check-task-status) |
+| output\_url | String | URL to output `.json` file containing results. `output_url` will be null until task is finished. |
 | count | Integer | Total num of items received in request |
-| input_url | String | URL to request input file |
-| cid   | String | Client ID |
-| create_at | LongInt | Timestamp of task created |
-| updated_at | LongInt | Timestamp of last task update |
-
-
+| input\_url | String | URL to request input file |
+| cid | String | Client ID |
+| create\_at | LongInt | Timestamp of task created |
+| updated\_at | LongInt | Timestamp of last task update |
 
 Example:
 
-````
+```text
 {
     "request_id": "0562dde8-c3ba-11e8-9e6e-0242ac1c2404",
     "results": {
@@ -190,107 +178,102 @@ Example:
         "update_at": 1538206436
     }
 }
-````
-
+```
 
 ### Check Task Status
 
-Batch Process API creates asynchronous tasks for process large number of items. You may check task status and download output results if completed successfully. 
+Batch Process API creates asynchronous tasks for process large number of items. You may check task status and download output results if completed successfully.
 
-Task status API may be invoked by using GET method, with task ID as parameter: 
+Task status API may be invoked by using GET method, with task ID as parameter:
 
-`https://api.productai.cn/measure/_0000203/batch/process/<task_id>`. 
-
+`https://api.productai.cn/measure/_0000203/batch/process/<task_id>`.
 
 | status code | Description |
-|-------------|-------------|
+| :--- | :--- |
 | 0 | Pending |
 | 1 | Started |
 | 2 | Completed successfully |
 | 4 | Finished with error |
 
+Example:
 
-Example: 
-
-````
+```text
 curl -H "Content-Type:application/json" \
     -H 'x-ca-version: 1.0' \
     -H 'x-ca-accesskeyid: ACCESS_KEY_ID' \
     -X GET 'https://api.productai.com/measure/_0000203/batch/process/<task_id>'
-
-````
+```
 
 ## Label Reference
 
 MeasureAI currently supports 4 types of garments:
-- Tops, such as Tshirts, Polo shirts, Dress shirts, Blouses. 
-- Pants, such as shorts and trousers
-- Dress
-- Skirt
-- Coats (beta testing!)
 
-Different garment types have different measurement labels. All labels are returned in English by default. All measurement values are in millimeter `mm`. 
+* Tops, such as Tshirts, Polo shirts, Dress shirts, Blouses. 
+* Pants, such as shorts and trousers
+* Dress
+* Skirt
+* Coats \(beta testing!\)
 
+Different garment types have different measurement labels. All labels are returned in English by default. All measurement values are in millimeter `mm`.
 
 #### Tops
 
 | Label | Chinese `zh` | Japanese `ja` |
-|-------|--------------|---------------|
+| :--- | :--- | :--- |
 | body-width | 身宽 | 身幅 |
 | shoulder-width | 肩宽 | 肩幅 |
-| chest-circumference  | 胸围 | 胸囲 |
+| chest-circumference | 胸围 | 胸囲 |
 | hem-width | 下摆宽 | 裾幅 |
 | hem-circumference | 下摆围 | 裾まわり |
 | sleeve-width | 袖宽 | 袖幅 |
 | sleeve-circumference | 袖围 | 袖まわり |
 | sleeve-length | 袖长 | 袖丈 |
-| raglan-sleeve-length | 套袖长度  | 裄丈 |
-| arm-hole | 袖孔宽  | アームホール |
-| body-length  | 身长 | 身丈 |
+| raglan-sleeve-length | 套袖长度 | 裄丈 |
+| arm-hole | 袖孔宽 | アームホール |
+| body-length | 身长 | 身丈 |
 | length | 衣长 | 着丈 |
 
 #### Pants
 
 | Label | Chinese `zh` | Japanese `ja` |
-|-------|--------------|---------------|
+| :--- | :--- | :--- |
 | waist-width | 腰宽 | ウエスト幅 |
 | waist-circumference | 腰围 | ウエスト |
-| hip-width  | 臀宽 | ヒップ幅 |
+| hip-width | 臀宽 | ヒップ幅 |
 | hip-circumference | 臀围 | ヒップ |
-| thigh-width  | 大腿宽 | ワタリ幅 |
+| thigh-width | 大腿宽 | ワタリ幅 |
 | thigh-circumference | 大腿围 | 腿まわり |
 | hem-width | 裤脚宽 | 裾幅 |
-| hem-circumference  | 裤脚围  | 裾まわり |
+| hem-circumference | 裤脚围 | 裾まわり |
 | rise-length | 前浪长 | 股上 |
-| inseam  | 内侧长 | 股下 |
-| length  | 裤长  | パンツの長さ |
-
+| inseam | 内侧长 | 股下 |
+| length | 裤长 | パンツの長さ |
 
 #### Dress
 
 | Label | Chinese `zh` | Japanese `ja` |
-|-------|--------------|---------------|
+| :--- | :--- | :--- |
 | body-width | 身宽 | 身幅 |
 | shoulder-width | 肩宽 | 肩幅 |
-| chest-circumference  | 胸围 | 胸囲 |
+| chest-circumference | 胸围 | 胸囲 |
 | hem-width | 下摆宽 | 裾幅 |
 | hem-circumference | 下摆围 | 裾まわり |
 | sleeve-width | 袖宽 | 袖幅 |
 | sleeve-circumference | 袖围 | 袖まわり |
 | sleeve-length | 袖长 | 袖丈 |
-| raglan-sleeve-length | 套袖长度  | 裄丈 |
-| arm-hole | 袖孔宽  | アームホール |
-| body-length  | 身长 | 身丈 |
+| raglan-sleeve-length | 套袖长度 | 裄丈 |
+| arm-hole | 袖孔宽 | アームホール |
+| body-length | 身长 | 身丈 |
 | length | 衣长 | 着丈 |
 | waist-width | 腰宽 | ウエスト幅 |
 | waist-circumference | 腰围 | ウエスト |
-| hip-width  | 臀宽 | ヒップ幅 |
+| hip-width | 臀宽 | ヒップ幅 |
 | hip-circumference | 臀围 | ヒップ |
 
 #### Skirt
 
 | Label | Chinese `zh` | Japanese `ja` |
-|-------|--------------|---------------|
+| :--- | :--- | :--- |
 | waist-width | 腰宽 | ウエスト幅 |
 | waist-circumference | 腰围 | ウエスト |
 | hem-width | 下摆宽 | 裾幅 |
@@ -300,30 +283,29 @@ Different garment types have different measurement labels. All labels are return
 #### Coat
 
 | Label | Chinese `zh` | Japanese `ja` |
-|-------|--------------|---------------|
+| :--- | :--- | :--- |
 | body-width | 身宽 | 身幅 |
 | shoulder-width | 肩宽 | 肩幅 |
-| chest-circumference  | 胸围 | 胸囲 |
+| chest-circumference | 胸围 | 胸囲 |
 | hem-width | 下摆宽 | 裾幅 |
 | hem-circumference | 下摆围 | 裾まわり |
 | sleeve-width | 袖宽 | 袖幅 |
 | sleeve-circumference | 袖围 | 袖まわり |
 | sleeve-length | 袖长 | 袖丈 |
-| arm-hole | 袖孔宽  | アームホール |
-| body-length  | 身长 | 身丈 |
+| arm-hole | 袖孔宽 | アームホール |
+| body-length | 身长 | 身丈 |
 | length | 衣长 | 着丈 |
-
 
 ## Errors
 
-All errors are returned in JSON format. 
+All errors are returned in JSON format.
 
-| error_code | Description |
-|------------|-------------|
-| 2001 | Image parameter is not provided. Should provide image inimage_file`, `image_url` or `image_base64` parameters. |
-| 2002 | The image size is too small. Please see [Image Specifications](#image-specifications) for requirements. |
-| 2003 | The image file size is too large. Please see [Image Specifications](#image-specifications) for requirements. |
-| 2004 | The image file type is not supported. Please see [Image Specifications](#image-specifications) for requirements. |
+| error\_code | Description |
+| :--- | :--- |
+| 2001 | Image parameter is not provided. Should provide image inimage\_file`,`image\_url`or`image\_base64\` parameters. |
+| 2002 | The image size is too small. Please see [Image Specifications](developer_api.md#image-specifications) for requirements. |
+| 2003 | The image file size is too large. Please see [Image Specifications](developer_api.md#image-specifications) for requirements. |
+| 2004 | The image file type is not supported. Please see [Image Specifications](developer_api.md#image-specifications) for requirements. |
 | 2005 | Can’t retrieve image through the url. |
 | 2006 | Timeout error. The image download time is more than 10 seconds. |
 | 2007 | Image download failed. |
@@ -336,11 +318,9 @@ All errors are returned in JSON format.
 | 3004 | `ACCESS_KEY_ID` incorrect. |
 | 3005 | `ACCESS_KEY_ID` expired. |
 | 3007 | Request missing `ACCESS_KEY_ID` |
-| 4001 | Request data not provided. Should provide `items`, item_json_file` or `item_csv_file`. |
+| 4001 | Request data not provided. Should provide `items`, item\_json\_file`or`item\_csv\_file\`. |
 | 4002 | Request data exceeded max limit `50,000`. Please contact your account representative. |
 | 4003 | Item is missing or has invalid `image_url` |
 | 4004 | Request data is empty |
 | 4005 | Task ID invalid |
-
-
 
