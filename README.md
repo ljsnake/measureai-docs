@@ -65,7 +65,7 @@ Sometimes the sleeves can obscure part of the clothing, especially where the che
 
 Expose the body width points, and lay the whole sleeves flat as shown in the examples below. 
 
-![Sleeves Tip](images/measurekit/tips/tips_sleeve.jpg)
+![Sleeves Tip](images/measurekit/tips/tips_sleeves.jpg)
 
 ![Sleeves Placement](images/measurekit/tips/tips_top.jpg)
 
@@ -86,8 +86,9 @@ Expose the crotch point, and lay the whole trousers flat as shown in the example
 ![Don't fold sleeves](images/measurekit/tips/tips_folded.jpg)
 
 **Don't wrinkle clothing**
+
 TIP: Try ironing or steaming the clothing to make it flat. 
 
-![Don't wrinkle](images/measurekit/tips/tips_wrinkle.jpg)
+![Don't wrinkle](images/measurekit/tips/tips_wrinkles.jpg)
 
 
